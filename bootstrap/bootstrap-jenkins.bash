@@ -33,5 +33,14 @@ EC2_IP=$(aws ec2 describe-instances --instance-id ${EC2_ID} |jq -r ".Reservation
 scp -i ${PRIVATE_IDENTITY} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no bootstrap/bootstrap-jenkins.payload ubuntu@${EC2_IP}:/tmp
 ssh -i ${PRIVATE_IDENTITY} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@${EC2_IP} bash -x /tmp/bootstrap-jenkins.payload
 
+
 echo "Please now access http://${EC2_IP}:8080 and unlock it.  The code is below.  Skip creating an initial user.  Leave Jenkins URL as-is.  Click Start Using Jenkins"
+echo "Install the recommneded plugins.  Also install Docker Pipeline.  At minimum, you need Pipeline, Docker, and Docker Pipeline"
 ssh -i ${PRIVATE_IDENTITY} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@${EC2_IP} cat /var/lib/jenkins/secrets/initialAdminPassword
+
+
+echo "Once you are finished, press Enter to continue the last steps."
+read ans
+# Fix Jenkins user and restart
+ssh -i ${PRIVATE_IDENTITY} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@${EC2_IP} sudo usermod -aG docker jenkins
+ssh -i ${PRIVATE_IDENTITY} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@${EC2_IP} sudo systemctl restart jenkins

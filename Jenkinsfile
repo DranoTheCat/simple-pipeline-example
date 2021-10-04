@@ -17,7 +17,7 @@ pipeline {
                 }
             } 
         }
-        stage('Deploy App') { 
+        stage('Push App to Dockerhub') { 
             steps { 
                 script { 
                     docker.withRegistry( '', registryCredential ) { 
@@ -26,5 +26,6 @@ pipeline {
                 } 
             }
         } 
+        stage('Deploy App to Kubernetes') { 
     }
 }

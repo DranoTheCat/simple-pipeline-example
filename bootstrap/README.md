@@ -1,4 +1,4 @@
-# The Infrastructure
+#The Sandbox Infrastructure
 Both the "Hello World" app and the infrasturcture stuff to deploy it both exist in this repo.  This is for sake of completeness, however, the better pattern would be to have these in separate repos.
 
 ## Bootstrapping
@@ -43,6 +43,8 @@ Of course, even if you are using the bootstrap, there are a few prerequisite req
 }
 ```
 7. You must also manually create the EKS nodegroup.
+8. Finally, you must have already setup the DNS Zone and have the ACM cert for this (either created, or imported from a service like LetsEncrypt)  
+   https://itnext.io/using-letsencrypt-ssl-certificates-in-aws-certificate-manager-c2bc3c6ae10 provides a method to use LetsEncrypt for this
 
 ### Bootstrapping Process
 0. Make sure your working environment is correctly configured to point at the AWS environment.  (e.g., set AWS_PROFILE and AWS_DEFAULT_REGION)

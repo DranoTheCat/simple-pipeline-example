@@ -1,5 +1,9 @@
 # The Pipeline
-Both the "Hello World" app and the infrasturcture stuff to deploy it both exist in this repo.  This is for sake of completeness, however, the better pattern would be to have these in separate repos.
+This repo contains a Jenkins pipeline to deploy a simple "Hello World" app, as well as tooling to create this reference infrastructure.
+
+The app is intended to run in an AWS EKS cluster, however, could run in any Kubernetes cluster by modifying the Ingress method.  This deployment uses native AWS NLBs as the TLS termination point.
+
+Both the "Hello World" app and the infrasturcture stuff to deploy it reside in this repo.  This is for sake of completeness, however, the better pattern would be to have these in separate repos.
 
 The App itself and the pipeline to deploy it live at this level.  The bootstrap/ folder contains some scripts and instructions to setup a fresh test environment in AWS.
 
@@ -14,16 +18,19 @@ The App itself and the pipeline to deploy it live at this level.  The bootstrap/
 * Don't just use :latest.  Decide on versioning convention.
 * Setup GitHub to trigger the Jenkins install, vs. having the Jenkins build run on a schedule.  (This would require Jenkins to be accessable to GitHub, or to use an intermediate service.)
 * Add lower QA environment.  This could enable an approval process after QA has been signed off (by human or AI).
+* Deploy to a specific namespace instead of just default
 
 ## Setting up the Pipeline
 ### Pre-requisites
-In order to run the Jenkins pipeline, at minimum you require:
-* A DockerHub account to store the application images (https://docs.docker.com/docker-hub/)
-* A Jenkins build host with the Pipeline, Docker, and Docker Pipeline plugins.
-* A target Kubernetes cluster to deploy to
-* The Jenkins build host must be configured to talk to the Kubernetes cluster (e.g., .kubeconfig credentials)
+Note:  Due to using AWS' Network Load Balancers for SSL, this Kubernetes deployment is specific to AWS.
 
-The Infrasturcture bootstrapping below gets this going from scratch in a new AWS environment.
+In order to run the Jenkins pipeline, you require:
+* A registered DNS Zone in the AWS account
+* A valid TLS cert in ACM for this Zone (Either issued by AWS, or imported from LetsEncrypt (https://letsencrypt.org/), etc.)
+* A DockerHub account to store the application images (https://docs.docker.com/docker-hub/)
+* A Jenkins build host with the Pipeline, Docker, and Docker Pipeline plugins.  Jenkins must be able to build Docker images.
+* A target Kubernetes cluster to deploy into
+* The Jenkins build host must be configured to talk to the Kubernetes cluster (e.g., .kubeconfig credentials)
 
 ### Steps to create the Jenkins Pipeline
 1. Log into your Jenkins build host over HTTP
@@ -42,4 +49,9 @@ The Infrasturcture bootstrapping below gets this going from scratch in a new AWS
 8. The pipeline can be found in the Jenkinsfile file in the repo.
 
 ## Future Improvements
-* Automate deployment of the pipeline, using something like the Jenkins Configuration as Code plugin.  https://www.jenkins.io/projects/jcasc/
+* Automate deployment and versioning of the pipeline
+* Use triggers from GitHub instead of pollling; this would require Jenkins to be accessible from the Internet
+
+# Bootstrapping the Jenkins and EKS example sandbox environment
+
+See https://github.com/DranoTheCat/simple-pipeline-example/tree/master/bootstrap
