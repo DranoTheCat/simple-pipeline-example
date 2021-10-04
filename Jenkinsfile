@@ -5,6 +5,11 @@ pipeline {
     }
     agent any 
     stages { 
+        stage('Get EKS Creds') {
+	    steps {
+              sh 'aws eks --region us-west-2 update-kubeconfig --name example-deploy-k8s'
+            }
+	}
         stage('Clone from GitHub') { 
             steps { 
                 git 'https://github.com/DranoTheCat/simple-pipeline-example'
