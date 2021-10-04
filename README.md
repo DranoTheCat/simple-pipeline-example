@@ -19,7 +19,7 @@ The App itself and the pipeline to deploy it live at this level.  The bootstrap/
 ### Pre-requisites
 In order to run the Jenkins pipeline, at minimum you require:
 * A DockerHub account to store the application images (https://docs.docker.com/docker-hub/)
-* A Jenkins build host
+* A Jenkins build host with the Pipeline, Docker, and Docker Pipeline plugins.
 * A target Kubernetes cluster to deploy to
 * The Jenkins build host must be configured to talk to the Kubernetes cluster (e.g., .kubeconfig credentials)
 

@@ -50,6 +50,7 @@ Of course, even if you are using the bootstrap, there are a few prerequisite req
 2. Run bootstrap-eks.bash.
 3. Edit bootstrap-jenkins.bash.  Update the variables at the top as appropriate.
 4. Run bootstrap-jenkins.bash.  Follow the manual instructions at the end to finish the Jenkins installation.
+5. Install the Recommended Plugins, as well as Docker Pipeline.  At minimum, you need Pipeline, Docker, and Docker Pipeline.
 
 # Future Improvements
 Future improvements are mixed below, but there are two high-level designs we could aim for:
@@ -58,6 +59,7 @@ Future improvements are mixed below, but there are two high-level designs we cou
 
 * Automating the remaining manual stuff (not automated yet do to non-trivialness of said automation.)
 * Run Jenkins securely (e.g., not just expose port 8080)
+* Use TLS for Infrastructure (maybe setup with letsencrypt)
 * Run Jenkins with higher availability
 * Put a reverse proxy (nginx, apache, etc.) in front of Jenkins
 * Run Jenkins ephemerally on a Kubernetes build cluster
