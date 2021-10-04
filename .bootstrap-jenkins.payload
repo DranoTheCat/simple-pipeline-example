@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Install Jenkins itself
+wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+sudo sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > \
+    /etc/apt/sources.list.d/jenkins.list'
+sudo apt-get update
+sudo apt-get -y install default-jdk
+sudo apt-get -y install jenkins
+
+# Install Kubernetes pre-reqs
+sudo apt-get -y install awscli
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+aws eks --region us-west-2 update-kubeconfig --name example-deploy-k8s

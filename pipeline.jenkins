@@ -1,0 +1,45 @@
+pipeline {
+  agent any
+  stages {
+  stage('Checkout Source') {
+    steps {
+      git url:'https://github.com/vamsijakkula/hellowhale.git', branch:'master'
+    }
+  }
+    
+  stage("Build image") {
+    steps {
+      script {
+        myapp = docker.build("helloapp:latest")
+      }
+    }
+  }
+
+  stage("Run tests")
+
+  stage("Push image") {
+    steps {
+      script {
+        docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+          myapp.push("latest")
+          myapp.push("${env.BUILD_ID}")
+        }
+      }
+    }
+  }
+  
+  stage("Confirm Service is currently up")
+
+  stage('Deploy App') {
+    steps {
+       script {
+          kubernetesDeploy(configs: "helloapp.yml", kubeconfigId: "mykubeconfig")
+       }
+     }
+   }
+
+   stage("Confirm Deployment Worked")
+
+ }
+
+}
