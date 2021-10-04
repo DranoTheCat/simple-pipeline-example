@@ -30,8 +30,8 @@ EC2_ID=$(aws ec2 describe-instances --filters Name=tag:Name,Values=jenkins-host 
 # TODO : Replace sleep with a while loop to go once the instance is back
 sleep 300 # wait for Jenkins instance to be available
 EC2_IP=$(aws ec2 describe-instances --instance-id ${EC2_ID} |jq -r ".Reservations[0].Instances[0].PublicIpAddress")
-scp -i ${PRIVATE_IDENTITY} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no .bootstrap-jenkins.payload ubuntu@${EC2_IP}:/tmp
-ssh -i ${PRIVATE_IDENTITY} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@${EC2_IP} bash -x /tmp/.bootstrap-jenkins.payload
+scp -i ${PRIVATE_IDENTITY} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no bootstrap/bootstrap-jenkins.payload ubuntu@${EC2_IP}:/tmp
+ssh -i ${PRIVATE_IDENTITY} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@${EC2_IP} bash -x /tmp/bootstrap-jenkins.payload
 
 echo "Please now access http://${EC2_IP}:8080 and unlock it.  The code is below.  Skip creating an initial user.  Leave Jenkins URL as-is.  Click Start Using Jenkins"
 ssh -i ${PRIVATE_IDENTITY} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@${EC2_IP} cat /var/lib/jenkins/secrets/initialAdminPassword
