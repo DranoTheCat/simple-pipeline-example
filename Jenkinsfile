@@ -1,6 +1,5 @@
 pipeline { 
     environment { 
-        registry = "dranothecat/simple-k8s-hello" 
         registryCredential = 'e8563297-2fc5-419b-87b0-562e9b7856ae' 
         dockerImage = '' 
     }
@@ -14,7 +13,7 @@ pipeline {
         stage('Build App') { 
             steps { 
                 script { 
-                    dockerImage = docker.build registry + ":latest" 
+                    dockerImage = docker.build "dranothecat/simple-k8s-hello:latest"
                 }
             } 
         }
@@ -22,7 +21,7 @@ pipeline {
             steps { 
                 script { 
                     docker.withRegistry( '', registryCredential ) { 
-                        dockerImage.push() 
+                        dockerImage.push 'latest'
                     }
                 } 
             }

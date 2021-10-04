@@ -8,10 +8,12 @@ The App itself and the pipeline to deploy it live at this level.  The bootstrap/
 2. Create a new branch (e.g., git checkout -b mybranch)
 3. Make your changes.  Commit and push your branch.
 4. Create a PR to merge your branch onto Main
-5. Once merged, the build will automatically trigger.
+5. Once merged, the build will automatically trigger within 5 minutes.
 
 ## Future Improvements for the Pipeline
 * Don't just use :latest.  Decide on versioning convention.
+* Setup GitHub to trigger the Jenkins install, vs. having the Jenkins build run on a schedule.  (This would require Jenkins to be accessable to GitHub, or to use an intermediate service.)
+* Add lower QA environment.  This could enable an approval process after QA has been signed off (by human or AI).
 
 ## Setting up the Pipeline
 ### Pre-requisites
@@ -30,11 +32,11 @@ The Infrasturcture bootstrapping below gets this going from scratch in a new AWS
 4. Edit the Jenkinsfile in the local folder and update the Environment section appropriately:
 ```
     environment {
-        registry = "YourDockerhubAccount/YourRepository"
         registryCredential = 'jenkinscreddockerhubid'
         dockerImage = ''
 ```
 5. Create a new Pipline job named "Hello Pipeline".
+6. Under Build Triggers, enable "Poll SCM".  Set the following schedule to poll every 5 minutes:  H/5 * * * * 
 6. For the Definition, use Pipeline script from SCM.  The SCM is Git, and the Repository URL is this Repo.  Since the repo is public, credentials are not needed here.
 7. The description can be "Hello Pipeline example".  Everything else can be defaults.
 8. The pipeline can be found in the Jenkinsfile file in the repo.
