@@ -43,7 +43,8 @@ Of course, even if you are using the bootstrap, there are a few prerequisite req
 }
 ```
 7. You must also manually create the EKS nodegroup.
-8. Finally, you must have already setup the DNS Zone and have the ACM cert for this (either created, or imported from a service like LetsEncrypt)  
+8. For every subnet you intend to be public and have NLBs on, tag with Name "kubernetes.io/role/elb" and Value "1"
+9. Finally, you must have already setup the DNS Zone and have the ACM cert for this (either created, or imported from a service like LetsEncrypt)  
    https://itnext.io/using-letsencrypt-ssl-certificates-in-aws-certificate-manager-c2bc3c6ae10 provides a method to use LetsEncrypt for this
 
 ### Bootstrapping Process

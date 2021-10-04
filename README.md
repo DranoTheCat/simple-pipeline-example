@@ -29,7 +29,8 @@ In order to run the Jenkins pipeline, you require:
 * A valid TLS cert in ACM for this Zone (Either issued by AWS, or imported from LetsEncrypt (https://letsencrypt.org/), etc.)
 * A DockerHub account to store the application images (https://docs.docker.com/docker-hub/)
 * A Jenkins build host with the Pipeline, Docker, and Docker Pipeline plugins.  Jenkins must be able to build Docker images.
-* A target Kubernetes cluster to deploy into
+* A target EKS Kubernetes cluster to deploy into
+* Subnets tagged with Name "kubernetes.io/role/elb" and Value "1" for use by the Public Network Load Balancer
 * The Jenkins build host must be configured to talk to the Kubernetes cluster (e.g., .kubeconfig credentials)
 
 ### Steps to create the Jenkins Pipeline
