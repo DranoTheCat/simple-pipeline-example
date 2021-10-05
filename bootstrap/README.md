@@ -42,9 +42,8 @@ Of course, even if you are using the bootstrap, there are a few prerequisite req
     ]
 }
 ```
-7. You must also manually create the EKS nodegroup.
-8. For every subnet you intend to be public and have NLBs on, tag with Name "kubernetes.io/role/elb" and Value "1"
-9. Finally, you must have already setup the DNS Zone and have the ACM cert for this (either created, or imported from a service like LetsEncrypt)  
+7. For every subnet you intend to be public and have NLBs on, tag with Name "kubernetes.io/role/elb" and Value "1"
+8. Finally, you must have already setup the DNS Zone and have the ACM cert for this (either created, or imported from a service like LetsEncrypt)  
    https://itnext.io/using-letsencrypt-ssl-certificates-in-aws-certificate-manager-c2bc3c6ae10 provides a method to use LetsEncrypt for this
 
 ### Bootstrapping Process
@@ -60,7 +59,8 @@ Future improvements are mixed below, but there are two high-level designs we cou
 1) More ephemeral build enviroments that come and go as needed, or
 2) More permament build environments that are managed as traditional infrastructure
 
-* Automating the remaining manual stuff (not automated yet do to non-trivialness of said automation.)
+* ExternalDNS
+* Automating the remaining manual stuff 
 * Run Jenkins securely (e.g., not just expose port 8080)
 * Use TLS for Infrastructure (maybe setup with letsencrypt)
 * Run Jenkins with higher availability
@@ -68,6 +68,7 @@ Future improvements are mixed below, but there are two high-level designs we cou
 * Run Jenkins ephemerally on a Kubernetes build cluster
 * Ship logs off to remote location
 * Tag resources for tracking, automation, cost analysis / etc.
+
 ## Bootstrapping
 Tons of improvements could be made to the bootstrap process, but are most likely out of scope for this exercise.
 

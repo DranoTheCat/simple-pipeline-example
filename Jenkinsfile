@@ -2,6 +2,8 @@ pipeline {
     environment { 
         registryCredential = 'e8563297-2fc5-419b-87b0-562e9b7856ae' 
         dockerImage = '' 
+        checkUrl = "https://stackoverflow.com"
+        checkCmd = "curl --write-out %{http_code} --silent --output /dev/null ${CHECK_URL}"
     }
     agent any 
     stages { 

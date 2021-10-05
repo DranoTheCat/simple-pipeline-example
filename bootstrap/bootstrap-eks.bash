@@ -4,18 +4,12 @@ AWS_REGION='us-west-2'
 VPC_ID='vpc-304bec55'          # ID of VPC to deploy to
 # TODO : This could be automatically created
 CLUSTER_ROLE_ARN='arn:aws:iam::146311103463:role/example-deploy-k8s'
+CLUSTER_NODEGROUP_ARN='arn:aws:iam::146311103463:role/Example_EKS_Nodegroup_Role'
 
 # Get local IP
 MYIP=$(curl https://icanhazip.com)
 
-# TODO : Create IAM Role
-
-## Create EKS Security Groups
-## TODO : Check to see if an appropriate group already exists, rather than just erroring out if it does.
-#aws ec2 create-security-group --description "EKS Cluster Security Group" --group-name "example-deploy-k8s-cluster" --vpc-id ${VPC_ID}
-#SG_ID=$(aws ec2 describe-security-groups --group-names example-deploy-k8s-cluster |jq -r ".SecurityGroups[0].GroupId")
-## Allow cluster all access
-#aws ec2 authorize-security-group-ingress --group-id ${SG_ID} --protocol all --source-group ${SG_ID}
+# TODO : Create IAM Roles and stuff
 
 # Create the EKS cluster
 VPC_SUBNETS=$(aws ec2 describe-subnets --filters Name=vpc-id,Values=${VPC_ID} |jq -r ".Subnets[].SubnetId" | tr "\n" "," | sed 's/,$//')
@@ -23,6 +17,14 @@ aws eks create-cluster --region ${AWS_REGION} --name example-deploy-k8s --kubern
 
 echo "Waiting for the cluster to become available..."
 while [ "$(aws eks describe-cluster --region us-west-2 --name example-deploy-k8s --query "cluster.status")" == "\"CREATING\"" ]; do echo -n '.' ; sleep 5 ; done
+
+# Create the EKS node groups
+EKS_SUBNETS=$(echo ${VPC_SUBNETS} |sed 's/,/" "/g' |sed 's/$/"/' |sed 's/^/"/')
+aws eks create-nodegroup --cluster-name example-deploy-k8s --nodegroup-name example-k8s-nodegroup --subnets ${EKS_SUBNETS} --node-role ${CLUSTER_NODEGROUP_ARN}
+echo
+echo "Note:  The nodegroup creation step can take a very long time, upwards of 10-15 minutes.  You can keep going with this in the background,
+however the node group needs to be active before the pipeline will work."
+echo
 
 # Allow Jenkins to access EKS
 ESCAPED_CLUSTER_ROLE_ARN=$(echo ${CLUSTER_ROLE_ARN} | sed 's:/:\\/:g')

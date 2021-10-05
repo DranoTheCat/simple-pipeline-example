@@ -14,6 +14,10 @@ The App itself and the pipeline to deploy it live at this level.  The bootstrap/
 4. Create a PR to merge your branch onto Main
 5. Once merged, the build will automatically trigger within 5 minutes.
 
+I ran out of time to do anything with ExternalDNS.  So, steps 6 and 7 are manual :(
+6. Run `kubectl get service helloapp-service -owide` to get the DNS of the NLB
+7. Update the CNAME For "hello.example.com" (e.g., "hello.dranosandbox.click") to point at this NLB
+
 ## Future Improvements for the Pipeline
 * Don't just use :latest.  Decide on versioning convention.
 * Setup GitHub to trigger the Jenkins install, vs. having the Jenkins build run on a schedule.  (This would require Jenkins to be accessable to GitHub, or to use an intermediate service.)
