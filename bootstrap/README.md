@@ -6,6 +6,7 @@ If you are running in AWS, you can use the bootstrap scripts below to configure 
 
 *Notes*:
 
+0. This bootstrap stuff is very hastily put together from previous works.  It will create an AWS environment from a nearly fresh setup (see Bootstrapping Pre-requisuites), and bring it to the sandbox level.  Although this was a bit beyond the scope of the assignment, Infrastructure as Code is work I enjoy, and it's fun to find the latest errors in AWS documentation. :)
 1. The bootstrapped build environment is *not* secure.  It is *not* intended for any sort of production use.  It is a minimal, bare-bones configuration to get a working AWS environment with a Jenkins build host (on a single EC2 instnace) able to deploy into an EKS cluster.  This bootstrapping is intended for individual development sandboxes only.  The bootstrapping will leave your Jenkins host with port 8080 exposed to whichever NAT IP you ran the bootstrapping from.  The Jenkins admin password is left as default from /var/lib/jenkins/secrets/initialAdminPassword
 2. This bootstrapping process assumes you do *not* have a VPN connection to your AWS VPC (which is normal.)  Therefore, public IP access is required.  This is not an ideal setup as it requires many endpoints to be publicly available, and has a very large surface area of security risk.
 3. The bootstrapped EKS environment is open to the Internet.  https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html

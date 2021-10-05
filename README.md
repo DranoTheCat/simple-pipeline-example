@@ -20,9 +20,11 @@ I ran out of time to do anything with ExternalDNS.  So, steps 6 and 7 are manual
 
 ## Future Improvements for the Pipeline
 * Don't just use :latest.  Decide on versioning convention.
+* Add test stages -- unit tests after build, tests with dummy endpoints, etc.
+* Deploy to a specific namespace instead of just default
+* Blue/Green deployments, canary deployments with limited rollout percentages, etc.
 * Setup GitHub to trigger the Jenkins install, vs. having the Jenkins build run on a schedule.  (This would require Jenkins to be accessable to GitHub, or to use an intermediate service.)
 * Add lower QA environment.  This could enable an approval process after QA has been signed off (by human or AI).
-* Deploy to a specific namespace instead of just default
 
 ## Setting up the Pipeline
 ### Pre-requisites
