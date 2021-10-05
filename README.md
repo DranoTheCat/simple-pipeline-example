@@ -13,10 +13,10 @@ The App itself and the pipeline to deploy it live at this level.  The bootstrap/
 3. Make your changes.  Commit and push your branch.
 4. Create a PR to merge your branch onto Main
 5. Once merged, the build will automatically trigger within 5 minutes.
+6. If the ELB was recreated: Run `kubectl get service helloapp-service -owide` to get the DNS of the NLB
+7. If the ELB was recreated: Update the CNAME For "hello.example.com" (e.g., "hello.dranosandbox.click") to point at this NLB
 
-I ran out of time to do anything with ExternalDNS.  So, steps 6 and 7 are manual :(  You usually won't need to do these, however, if the NLB is recreated, then:
-6. Run `kubectl get service helloapp-service -owide` to get the DNS of the NLB
-7. Update the CNAME For "hello.example.com" (e.g., "hello.dranosandbox.click") to point at this NLB
+I ran out of time to do anything with ExternalDNS.  So, steps 6 and 7 are manual :(  You usually won't need to do these, however; only if the NLB is recreated.
 
 ## Future Improvements for the Pipeline
 * Don't just use :latest.  Decide on versioning convention.

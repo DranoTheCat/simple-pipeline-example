@@ -1,4 +1,4 @@
-#The Sandbox Infrastructure
+# The Sandbox Infrastructure
 Both the "Hello World" app and the infrasturcture stuff to deploy it both exist in this repo.  This is for sake of completeness, however, the better pattern would be to have these in separate repos.
 
 ## Bootstrapping
